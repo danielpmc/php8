@@ -4,7 +4,7 @@ MAINTAINER danielpmc, <danielpd93@gmail.com>
 
 RUN apt update \
     && apt upgrade -y \
-    && apt -y install curl software-properties-common locales git lsb-release ca-certificates apt-transport-https gnupg \
+    && apt -y install curl software-properties-common locales git lsb-release ca-certificates apt-transport-https gnupg wget \
     && useradd -d /home/container -m container \
     && apt-get update
 
