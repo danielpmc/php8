@@ -4,8 +4,7 @@ MAINTAINER danielpmc, <danielpd93@gmail.com>
 
 RUN apt update \
     && apt upgrade -y \
-    && apt -y install curl software-properties-common locales git \
-    && apt-get install -y default-jre \
+    && apt -y install curl software-properties-common locales git lsb-release ca-certificates apt-transport-https \
     && useradd -d /home/container -m container \
     && apt-get update
 
@@ -17,22 +16,16 @@ RUN apt-get update && \
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
-
-    # NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt -y install nodejs \
-    && apt -y install ffmpeg \
-    && apt -y install make \
-    && apt -y install build-essential \
-    && apt -y install wget \ 
-    && apt -y install curl
     
 # Install basic software support
 RUN apt-get update && \
     apt-get install --yes software-properties-common
     
     # Python 2 & 3
-RUN apt -y install python python-pip python3 python3-pip
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/sury-php.list \
+    && wget -qO - https://packages.sury.org/php/apt.gpg | sudo apt-key add - \
+    && apt update \
+    && apt install php8.0
 
 USER container
 ENV  USER container
